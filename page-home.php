@@ -1,446 +1,669 @@
 <?php
 /*
-Template Name: Главная страница
+Template Name: zoofari_main page
 */
 ?>
 
 <?php get_header(); ?>
 
-    <style type="text/css">
-        img, svg {
-            -webkit-user-select: none;
-            -moz-user-select: none;
-            user-select: none;
-            pointer-events: none;
-        }
-
-
-    </style>
-    <script type="text/javascript">
-        document.getElementsByTagName('img').ondragstart = function () {
-            return false;
-        };
-    </script>
-
-    <section class="hero-section">
-        <div class="hero-section-bg" style="background-image: url('<?php the_field('hero_img') ?>') ">
-            <div class="container">
-                <div class="text">
-                    <h1 class="hero-text"><?php the_field('hero_text') ?></h1>
-                    <p class="hero-subtext"><?php the_field('hero_subtext') ?></p>
-                </div>
-                <a href="#request_form">
-                    <button class="hero-btn">рассчитать стоимость</button>
-                </a>
-
-            </div>
-        </div>
-    </section>
-    <section class="advantages-section">
-        <div class="container">
-            <h2 class="advantages-header"><?php the_field('advantages_title') ?></h2>
-
-            <div class="advantages-container">
-                <div class="advantages__item">
-                    <img src="<?php echo get_template_directory_uri(); ?>/assets/img/icons/re.svg" alt="">
-                    <h6><?php the_field('advantage_name_1') ?></h6>
-                    <p><?php the_field('advantage_description_1') ?></p>
-                </div>
-                <div class="advantages__item">
-                    <img src="<?php echo get_template_directory_uri(); ?>/assets/img/icons/robot.svg" alt="">
-                    <h6><?php the_field('advantage_name_2') ?></h6>
-                    <p><?php the_field('advantage_description_2') ?></p>
-                </div>
-                <div class="advantages__item">
-                    <img src="<?php echo get_template_directory_uri(); ?>/assets/img/icons/chip.svg" alt="">
-                    <h6><?php the_field('advantage_name_3') ?></h6>
-                    <p><?php the_field('advantage_description_3') ?></p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section class="services-section" id="services">
-        <div class="container">
-            <h2 class="services-header"><?php the_field('services_title') ?></h2>
-
-            <div class="services-container">
-                <?php
-                $services = get_posts(array(
-                    'numberposts' => 0,
-                    'orderby' => 'date',
-                    'order' => 'ASC',
-                    'include' => array(),
-                    'exclude' => array(),
-                    'meta_key' => '',
-                    'meta_value' => '',
-                    'post_type' => 'services',
-                    'suppress_filters' => true,
-                ));
-
-                foreach ($services as $post) {
-                    setup_postdata($post);
-                    ?>
-                    <div class="services__item">
-                        <img src="<?php the_field('service_img') ?>" alt="service">
-                        <h5><?php the_field('service_name') ?></h5>
-                        <ul>
-                            <?php the_field('service_text') ?>
-                        </ul>
-                        <a href="#request_form">
-                            <button>рассчитать стоимость</button>
-                        </a>
-                    </div>
-                    <?php
-                }
-                wp_reset_postdata(); // сброс
-                ?>
-
-
-            </div>
-        </div>
-    </section>
-
-    <section class="section-about" id="about">
-        <div class="container">
-            <div class="left-column">
-                <div class="navigation">
-                    <div class="prev">
-                        <img src="<?php echo get_template_directory_uri(); ?>/assets/img/icons/prev.svg" alt="">
-                    </div>
-                    <div class="next">
-                        <img src="<?php echo get_template_directory_uri(); ?>/assets/img/icons/next.svg" alt="">
-                    </div>
-                </div>
-                <h2 class="about-header"><?php the_field('about_section_title') ?></h2>
-                <p class="description"><?php the_field('about_section_description') ?></p>
-            </div>
-            <div class="right-column">
-                <div class="swiper aboutSwiper">
-                    <div class="swiper-wrapper">
-                        <?php
-                        $images = get_field('about_section_images');
-                        if ($images) {
-                            foreach ($images as $image) { ?>
-                                <div class="swiper-slide">
-                                    <img src="<?php echo $image['about_img'] ?>" alt="">
-
-                                </div>
-                                <?php
-                            }
-                        }
-                        ?>
-
-                    </div>
-                </div>
-                <div class="about-pagination"></div>
-                <div class="about-slide-description-container">
-                    <?php
-                    $slider_descriptions = get_field('slider_descriptions');
-                    if ($slider_descriptions) {
-                        foreach ($slider_descriptions as $description) { ?>
-                            <div class="slide-description-item">
-                                <h6><?php echo $description['description_title'] ?></h6>
-                                <p><?php echo $description['description_text'] ?></p>
-                            </div>
-                            <?php
-                        }
-                    }
-                    ?>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section class="section-equipment">
-        <div class="container">
-            <div class="equipment-header-container">
-                <h2 class="equipment-header"><?php the_field('equipment_section_title') ?></h2>
-                <div class="navigation">
-                    <div class="eq-prev">
-                        <img src="<?php echo get_template_directory_uri(); ?>/assets/img/icons/prev.svg" alt="">
-                    </div>
-                    <div class="eq-next">
-                        <img src="<?php echo get_template_directory_uri(); ?>/assets/img/icons/next.svg" alt="">
-                    </div>
-                </div>
-            </div>
-            <div class="swiper equipmentSwiper">
-                <div class="swiper-wrapper">
-
-                    <?php
-                    $equipments = get_posts(array(
-                        'numberposts' => 0,
-                        'orderby' => 'date',
-                        'order' => 'DESC',
-                        'include' => array(),
-                        'exclude' => array(),
-                        'meta_key' => '',
-                        'meta_value' => '',
-                        'post_type' => 'equipment',
-                        'suppress_filters' => true,
-                    ));
-
-                    $i = 1;
-                    foreach ($equipments as $post) {
-                        setup_postdata($post);
-                        ?>
-                        <div class="swiper-slide">
-                            <img src="<?php the_field('eq_img') ?>" alt="">
-                            <div class="description">
-                                <h6><?php the_field('eq_title') ?></h6>
-                                <ul>
-                                    <?php the_field('eq_description') ?>
-                                </ul>
-                            </div>
-                        </div>
-                        <?php
-                        $i++;
-                    }
-                    wp_reset_postdata(); // сброс
-                    ?>
-                </div>
-            </div>
-
-            <div class="eq-pagination"></div>
-        </div>
-    </section>
-
-
-    <section class="section-prices">
-        <div class="container">
-            <h2 class="prices-header"><?php the_field('prices_section_title') ?></h2>
-            <?php
-            $prices = get_posts(array(
-                'numberposts' => 0,
-                'orderby' => 'date',
-                'order' => 'ASC',
-                'include' => array(),
-                'exclude' => array(),
-                'meta_key' => '',
-                'meta_value' => '',
-                'post_type' => 'prices',
-                'suppress_filters' => true,
-            ));
-
-            $i = 1;
-            foreach ($prices as $post) {
-                setup_postdata($post);
-                $tabs_id = 'tabs_id' . $i;
-                ?>
-                <div class="prices-item" data-id="<?php echo $tabs_id ?>">
-                    <h6 class="prices-item__header"><?php the_title(); ?></h6>
-                    <div class="content">
-                        <?php
-                        $tabs = get_field('tabs');
-                        if ($tabs && count($tabs) > 1) {
-                            $tab_index = 1; ?>
-                            <div class="prices-item__tabs">
-                                <?php
-                                foreach ($tabs as $tab) { ?>
-                                    <div class="prices-item__tab <?php echo $tab_index === 1 ? 'active' : ''; ?>"
-                                         id="tab-<?php echo $tabs_id . '-' . $tab_index; ?>">
-                                        <?php echo $tab['tab'] ?>
-                                    </div>
-                                    <?php
-                                    $tab_index++;
-                                } ?>
-                            </div>
-                        <?php }
-                        ?>
-
-                        <?php
-                        $tabs = get_field('tabs');
-                        if ($tabs) {
-                            $tab_index = 1;
-                            foreach ($tabs as $tab) { ?>
-                                <div class="desktop <?php echo $tab_index === 1 ? 'in-view' : ''; ?>"
-                                     data-id="<?php echo $tabs_id ?>"
-                                     data-tabid="tab-<?php echo $tabs_id . '-' . $tab_index; ?>">
-                                    <?php echo do_shortcode($tab['shortcode']); ?>
-                                </div>
-
-                                <div class="mobile <?php  if(count($tabs) == 1){ echo 'single '; }  echo $tab_index === 1 ? 'in-view' : ''; ?>"
-                                     data-id="<?php echo $tabs_id ?>"
-                                     data-tabid="tab-<?php echo $tabs_id . '-' . $tab_index; ?>">
-                                    <?php echo do_shortcode($tab['shortcode_vl']); ?>
-                                </div>
-                                <?php
-                                $tab_index++;
-                            }
-                        }
-                        ?>
-                    </div>
-                    <p class="table-info"><?php the_field('tables_note') ?></p>
-                </div>
-                <?php
-                $i++;
-            }
-            wp_reset_postdata(); // сброс
-            ?>
-
-
-        </div>
-    </section>
-
-
-    <section class="section-form" id="request_form">
-        <div class="container">
-            <h2 class="form-header"><?php the_field('form_section_title') ?></h2>
-
-            <?php echo do_shortcode('[forminator_form id="9"]'); ?>
-
-            <form class="form" style="display: none">
-                <div class="field">
-                    <label class="field-name" for="field-name">ФИО*</label>
-                    <input class="field-input" type="text" name="name" id="field-name" placeholder="Введите ФИО">
-                </div>
-                <div class="field">
-                    <label class="field-email" for="field-email">E-mail*</label>
-                    <input class="field-input" type="text" name="email" id="field-email" placeholder="example@mail.ru">
-                </div>
-                <div class="flex-container">
-                    <div class="field">
-                        <label class="field-phone" for="field-phone">Телефон*</label>
-                        <input class="field-input" type="text" name="phone" id="field-phone"
-                               placeholder="+7-(929)-111-11-11">
-                    </div>
-                    <div class="field">
-                        <label class="field-inn" for="field-inn">ИНН*</label>
-                        <input class="field-input" type="text" name="inn" id="field-inn" placeholder="0123456789">
-                    </div>
-                </div>
-                <div class="field">
-                    <label class="field-comment" for="field-comment">Комментарии</label>
-                    <textarea class="field-input" type="text" name="comment" id="field-comment" rows="7"
-                              placeholder="Дополнительная информация о заказе..."></textarea>
-                </div>
-
-                <div class="bottom-area">
-                    <button class="attachment-button">
-                        <img src="<?php echo get_template_directory_uri(); ?>/assets/img/icons/attachment.svg" alt="">
-                        Прикрепить файл
-                    </button>
-                    <div class="send-area">
-                        <p>Нажимая кнопку, вы даете согласие на <a href="#"> обработку персональных данных</a></p>
-                        <button class="send-button">отправить</button>
-                    </div>
-                </div>
-            </form>
-            <p class="description"><?php the_field('form_description') ?></p>
-        </div>
-    </section>
-
-    <section class="section-questions">
-        <div class="container">
-            <h2 class="questions-header"><?php the_field('questions_section_title') ?></h2>
-            <div class="questions">
-                <?php
-                $questions = get_posts(array(
-
-                    'numberposts' => 0,
-                    'orderby' => 'date',
-                    'order' => 'DESC',
-                    'include' => array(),
-                    'exclude' => array(),
-                    'meta_key' => '',
-                    'meta_value' => '',
-                    'post_type' => 'questions',
-                    'suppress_filters' => true,
-                ));
-
-                $i = 1;
-                foreach ($questions as $post) {
-                    setup_postdata($post);
-                    $question_id = 'question' . $i;
-                    ?>
-                    <div class="question-container">
-                        <div class="collapsable-container">
-                            <p class="question"><?php the_field('question') ?></p>
-                            <p class="collapse question-text"
-                               id="<?php echo $question_id ?>"><?php the_field('answer') ?></p>
-                        </div>
-                        <button class="chevron" type="button" data-bs-toggle="collapse"
-                                data-bs-target="#<?php echo $question_id ?>"
-                                aria-expanded="false" aria-controls="<?php echo $question_id ?>">
-                            <img src="<?php echo get_template_directory_uri(); ?>/assets/img/icons/chevron-right.svg"
-                                 alt="">
+    <!-- Header Start -->
+    <div class="container-fluid bg-dark p-0 mb-5">
+        <div class="row g-0 flex-column-reverse flex-lg-row">
+            <div class="col-lg-6 p-0 wow fadeIn" data-wow-delay="0.1s">
+                <div
+                        class="header-bg h-100 d-flex flex-column justify-content-center p-5"
+                >
+                    <h1 class="display-4 text-light mb-5">
+                        Enjoy Wonderful Day With Your Family
+                    </h1>
+                    <div class="d-flex align-items-center pt-4 animated slideInDown">
+                        <a href="" class="btn btn-primary py-sm-3 px-3 px-sm-5 me-5"
+                        >Read More</a
+                        >
+                        <button
+                                type="button"
+                                class="btn-play"
+                                data-bs-toggle="modal"
+                                data-src="https://www.youtube.com/watch?v=YpoE-1xkRsg"
+                                data-bs-target="#videoModal"
+                        >
+                            <span></span>
                         </button>
+                        <h6 class="text-white m-0 ms-4 d-none d-sm-block">Watch Video</h6>
                     </div>
-                    <?php
-                    $i++;
-                }
-                wp_reset_postdata(); // сброс
-                ?>
-
-
-            </div>
-        </div>
-    </section>
-
-
-    <section class="section-contact" id="contacts">
-        <div class="container">
-            <div class="left-column">
-                <h2 class="contact-header"><?php the_field('contacts_section_title') ?></h2>
-                <div class="contact-infos">
-                    <p><span>Адрес:</span> <?php the_field('address') ?></p>
-                    <p><span>Часы работы:</span> <?php the_field('work_times') ?></p>
-                    <p><span>Телефон:</span> <?php the_field('phone') ?></p>
-                    <p><span>Почта:</span> <?php the_field('email') ?></p>
                 </div>
-                <a href="<?php the_field('docs_link') ?>" target="_blank">Наши реквизиты <img
-                            src="<?php echo get_template_directory_uri(); ?>/assets/img/icons/arrow%2045deg.svg" alt=""></a>
             </div>
-            <div class="right-column">
-
-                <?php the_field('map_code') ?>
+            <div class="col-lg-6 wow fadeIn" data-wow-delay="0.5s">
+                <div class="owl-carousel header-carousel">
+                    <div class="owl-carousel-item">
+                        <img class="img-fluid"
+                             src="<?php echo get_template_directory_uri(); ?>/assets/img/carousel-1.jpg" alt=""/>
+                    </div>
+                    <div class="owl-carousel-item">
+                        <img class="img-fluid"
+                             src="<?php echo get_template_directory_uri(); ?>/assets/img/carousel-2.jpg" alt=""/>
+                    </div>
+                    <div class="owl-carousel-item">
+                        <img class="img-fluid"
+                             src="<?php echo get_template_directory_uri(); ?>/assets/img/carousel-3.jpg" alt=""/>
+                    </div>
+                </div>
             </div>
         </div>
-    </section>
+    </div>
+    <!-- Header End -->
 
-    <script>
-        document.addEventListener("DOMContentLoaded", function () {
-            setTimeout(() => {
-                const multiUpload = document.querySelector('.forminator-multi-upload a');
-                const rowLast = document.querySelector('.forminator-row-last');
-                const terms = document.createElement('p');
-                const rowLastField = rowLast.querySelector('.forminator-field');
-                terms.innerHTML = 'Нажимая кнопку, вы даете согласие на <a href="#">обработку персональных данных</a>';
-                multiUpload.innerHTML = `<img src="<?php echo get_template_directory_uri(); ?>/assets/img/icons/attachment.svg" alt="">
-                        Прикрепить файл`;
-
-                rowLastField.insertBefore(terms, rowLastField.firstChild);
-                if (multiUpload && rowLast) {
-                    rowLast.insertBefore(multiUpload, rowLast.firstChild);
-                }
-            }, 2000)
-
-
-            jQuery(document).ready(function ($) {
-                let $items = $(".equipmentSwiper .swiper-slide");
-                let maxHeight = 0;
-
-                function resize() {
-                    $items.css("height", "");
-
-                    $items.each(function () {
-                        let itemHeight = $(this).height();
-                        maxHeight = Math.max(maxHeight, itemHeight);
-                    });
-                    $items.height(maxHeight);
-                }
-
-                $(window).on("resize", function () {
-                    resize();
-                });
-
-                resize();
-            });
-
-        });
+    <!-- Video Modal Start -->
+    <div
+            class="modal modal-video fade"
+            id="videoModal"
+            tabindex="-1"
+            aria-labelledby="exampleModalLabel"
+            aria-hidden="true"
+    >
+        <div class="modal-dialog">
+            <div class="modal-content rounded-0">
+                <div class="modal-header">
+                    <h3 class="modal-title" id="exampleModalLabel">Youtube Video</h3>
+                    <button
+                            type="button"
+                            class="btn-close"
+                            data-bs-dismiss="modal"
+                            aria-label="Close"
+                    ></button>
+                </div>
+                <div class="modal-body">
+                    <!-- 16:9 aspect ratio -->
+                    <div class="ratio ratio-16x9">
+                        <iframe width="100%" height="100%"
+                                class="embed-responsive-item"
+                                src=""
+                                id="video"
+                                frameborder="0"
+                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                allowfullscreen=""
+                        ></iframe>
 
 
-    </script>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Video Modal End -->
+
+    <!-- About Start -->
+    <div class="container-xxl py-5">
+        <div class="container">
+            <div class="row g-5">
+                <div class="col-lg-6 wow fadeInUp" data-wow-delay="0.1s">
+                    <p><span class="text-primary me-2">#</span>Welcome To Zoofari</p>
+                    <h1 class="display-5 mb-4">
+                        Why You Should Visit
+                        <span class="text-primary">Zoofari</span> Park!
+                    </h1>
+                    <p class="mb-4">
+                        Stet no et lorem dolor et diam, amet duo ut dolore vero eos. No
+                        stet est diam rebum amet diam ipsum. Clita clita labore, dolor duo
+                        nonumy clita sit at, sed sit sanctus dolor eos.
+                    </p>
+                    <h5 class="mb-3">
+                        <i class="far fa-check-circle text-primary me-3"></i>Free Car
+                        Parking
+                    </h5>
+                    <h5 class="mb-3">
+                        <i class="far fa-check-circle text-primary me-3"></i>Natural
+                        Environment
+                    </h5>
+                    <h5 class="mb-3">
+                        <i class="far fa-check-circle text-primary me-3"></i>Professional
+                        Guide & Security
+                    </h5>
+                    <h5 class="mb-3">
+                        <i class="far fa-check-circle text-primary me-3"></i>World Best
+                        Animals
+                    </h5>
+                    <a class="btn btn-primary py-3 px-5 mt-3" href="">Read More</a>
+                </div>
+                <div class="col-lg-6 wow fadeInUp" data-wow-delay="0.5s">
+                    <div class="img-border">
+                        <img class="img-fluid" src="<?php echo get_template_directory_uri(); ?>/assets/img/about.jpg"
+                             alt=""/>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- About End -->
+
+    <!-- Facts Start -->
+    <div
+            class="container-xxl bg-primary facts my-5 py-5 wow fadeInUp"
+            data-wow-delay="0.1s"
+    >
+        <div class="container py-5">
+            <div class="row g-4">
+                <div
+                        class="col-md-6 col-lg-3 text-center wow fadeIn"
+                        data-wow-delay="0.1s"
+                >
+                    <i class="fa fa-paw fa-3x text-primary mb-3"></i>
+                    <h1 class="text-white mb-2" data-toggle="counter-up">12345</h1>
+                    <p class="text-white mb-0">Total Animal</p>
+                </div>
+                <div
+                        class="col-md-6 col-lg-3 text-center wow fadeIn"
+                        data-wow-delay="0.3s"
+                >
+                    <i class="fa fa-users fa-3x text-primary mb-3"></i>
+                    <h1 class="text-white mb-2" data-toggle="counter-up">12345</h1>
+                    <p class="text-white mb-0">Daily Vigitors</p>
+                </div>
+                <div
+                        class="col-md-6 col-lg-3 text-center wow fadeIn"
+                        data-wow-delay="0.5s"
+                >
+                    <i class="fa fa-certificate fa-3x text-primary mb-3"></i>
+                    <h1 class="text-white mb-2" data-toggle="counter-up">12345</h1>
+                    <p class="text-white mb-0">Total Membership</p>
+                </div>
+                <div
+                        class="col-md-6 col-lg-3 text-center wow fadeIn"
+                        data-wow-delay="0.7s"
+                >
+                    <i class="fa fa-shield-alt fa-3x text-primary mb-3"></i>
+                    <h1 class="text-white mb-2" data-toggle="counter-up">12345</h1>
+                    <p class="text-white mb-0">Save Wild Life</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Facts End -->
+
+    <!-- Service Start -->
+    <div class="container-xxl py-5">
+        <div class="container">
+            <div class="row g-5 mb-5 wow fadeInUp" data-wow-delay="0.1s">
+                <div class="col-lg-6">
+                    <p><span class="text-primary me-2">#</span>Our Services</p>
+                    <h1 class="display-5 mb-0">
+                        Special Services For
+                        <span class="text-primary">Zoofari</span> Visitors
+                    </h1>
+                </div>
+                <div class="col-lg-6">
+                    <div
+                            class="bg-primary h-100 d-flex align-items-center py-4 px-4 px-sm-5"
+                    >
+                        <i class="fa fa-3x fa-mobile-alt text-white"></i>
+                        <div class="ms-4">
+                            <p class="text-white mb-0">Call for more info</p>
+                            <h2 class="text-white mb-0">+012 345 6789</h2>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row gy-5 gx-4">
+                <div
+                        class="col-lg-3 col-md-4 col-sm-6 wow fadeInUp"
+                        data-wow-delay="0.1s"
+                >
+                    <img class="img-fluid mb-3"
+                         src="<?php echo get_template_directory_uri(); ?>/assets/img/icon/icon-2.png" alt="Icon"/>
+                    <h5 class="mb-3">Car Parking</h5>
+                    <span
+                    >Erat ipsum justo amet duo et elitr dolor, est duo duo eos lorem
+              sed diam stet diam sed stet.</span
+                    >
+                </div>
+                <div
+                        class="col-lg-3 col-md-4 col-sm-6 wow fadeInUp"
+                        data-wow-delay="0.3s"
+                >
+                    <img class="img-fluid mb-3"
+                         src="<?php echo get_template_directory_uri(); ?>/assets/img/icon/icon-3.png" alt="Icon"/>
+                    <h5 class="mb-3">Animal Photos</h5>
+                    <span
+                    >Erat ipsum justo amet duo et elitr dolor, est duo duo eos lorem
+              sed diam stet diam sed stet.</span
+                    >
+                </div>
+                <div
+                        class="col-lg-3 col-md-4 col-sm-6 wow fadeInUp"
+                        data-wow-delay="0.5s"
+                >
+                    <img class="img-fluid mb-3"
+                         src="<?php echo get_template_directory_uri(); ?>/assets/img/icon/icon-4.png" alt="Icon"/>
+                    <h5 class="mb-3">Guide Services</h5>
+                    <span
+                    >Erat ipsum justo amet duo et elitr dolor, est duo duo eos lorem
+              sed diam stet diam sed stet.</span
+                    >
+                </div>
+                <div
+                        class="col-lg-3 col-md-4 col-sm-6 wow fadeInUp"
+                        data-wow-delay="0.7s"
+                >
+                    <img class="img-fluid mb-3"
+                         src="<?php echo get_template_directory_uri(); ?>/assets/img/icon/icon-5.png" alt="Icon"/>
+                    <h5 class="mb-3">Food & Beverages</h5>
+                    <span
+                    >Erat ipsum justo amet duo et elitr dolor, est duo duo eos lorem
+              sed diam stet diam sed stet.</span
+                    >
+                </div>
+                <div
+                        class="col-lg-3 col-md-4 col-sm-6 wow fadeInUp"
+                        data-wow-delay="0.1s"
+                >
+                    <img class="img-fluid mb-3"
+                         src="<?php echo get_template_directory_uri(); ?>/assets/img/icon/icon-6.png" alt="Icon"/>
+                    <h5 class="mb-3">Zoo Shopping</h5>
+                    <span
+                    >Erat ipsum justo amet duo et elitr dolor, est duo duo eos lorem
+              sed diam stet diam sed stet.</span
+                    >
+                </div>
+                <div
+                        class="col-lg-3 col-md-4 col-sm-6 wow fadeInUp"
+                        data-wow-delay="0.3s"
+                >
+                    <img class="img-fluid mb-3"
+                         src="<?php echo get_template_directory_uri(); ?>/assets/img/icon/icon-7.png" alt="Icon"/>
+                    <h5 class="mb-3">Free Hi Speed Wi-Fi</h5>
+                    <span
+                    >Erat ipsum justo amet duo et elitr dolor, est duo duo eos lorem
+              sed diam stet diam sed stet.</span
+                    >
+                </div>
+                <div
+                        class="col-lg-3 col-md-4 col-sm-6 wow fadeInUp"
+                        data-wow-delay="0.5s"
+                >
+                    <img class="img-fluid mb-3"
+                         src="<?php echo get_template_directory_uri(); ?>/assets/img/icon/icon-8.png" alt="Icon"/>
+                    <h5 class="mb-3">Play Ground</h5>
+                    <span
+                    >Erat ipsum justo amet duo et elitr dolor, est duo duo eos lorem
+              sed diam stet diam sed stet.</span
+                    >
+                </div>
+                <div
+                        class="col-lg-3 col-md-4 col-sm-6 wow fadeInUp"
+                        data-wow-delay="0.7s"
+                >
+                    <img class="img-fluid mb-3"
+                         src="<?php echo get_template_directory_uri(); ?>/assets/img/icon/icon-9.png" alt="Icon"/>
+                    <h5 class="mb-3">Rest House</h5>
+                    <span
+                    >Erat ipsum justo amet duo et elitr dolor, est duo duo eos lorem
+              sed diam stet diam sed stet.</span
+                    >
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Service End -->
+
+    <!-- Animal Start -->
+    <div class="container-xxl py-5">
+        <div class="container">
+            <div
+                    class="row g-5 mb-5 align-items-end wow fadeInUp"
+                    data-wow-delay="0.1s"
+            >
+                <div class="col-lg-6">
+                    <p><span class="text-primary me-2">#</span>Our Animals</p>
+                    <h1 class="display-5 mb-0">
+                        Let`s See Our <span class="text-primary">Zoofari</span> Awsome
+                        Animals
+                    </h1>
+                </div>
+                <div class="col-lg-6 text-lg-end">
+                    <a class="btn btn-primary py-3 px-5" href=""
+                    >Explore More Animals</a
+                    >
+                </div>
+            </div>
+            <div class="row g-4">
+                <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.1s">
+                    <div class="row g-4">
+                        <div class="col-12">
+                            <a
+                                    class="animal-item"
+                                    href="<?php echo get_template_directory_uri(); ?>/assets/img/animal-md-1.jpg"
+                                    data-lightbox="animal"
+                            >
+                                <div class="position-relative">
+                                    <img class="img-fluid"
+                                         src="<?php echo get_template_directory_uri(); ?>/assets/img/animal-md-1.jpg"
+                                         alt=""/>
+                                    <div class="animal-text p-4">
+                                        <p class="text-white small text-uppercase mb-0">Animal</p>
+                                        <h5 class="text-white mb-0">Elephant</h5>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                        <div class="col-12">
+                            <a
+                                    class="animal-item"
+                                    href="<?php echo get_template_directory_uri(); ?>/assets/img/animal-lg-1.jpg"
+                                    data-lightbox="animal"
+                            >
+                                <div class="position-relative">
+                                    <img class="img-fluid"
+                                         src="<?php echo get_template_directory_uri(); ?>/assets/img/animal-lg-1.jpg"
+                                         alt=""/>
+                                    <div class="animal-text p-4">
+                                        <p class="text-white small text-uppercase mb-0">Animal</p>
+                                        <h5 class="text-white mb-0">Elephant</h5>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.3s">
+                    <div class="row g-4">
+                        <div class="col-12">
+                            <a
+                                    class="animal-item"
+                                    href="<?php echo get_template_directory_uri(); ?>/assets/img/animal-lg-2.jpg"
+                                    data-lightbox="animal"
+                            >
+                                <div class="position-relative">
+                                    <img class="img-fluid"
+                                         src="<?php echo get_template_directory_uri(); ?>/assets/img/animal-lg-2.jpg"
+                                         alt=""/>
+                                    <div class="animal-text p-4">
+                                        <p class="text-white small text-uppercase mb-0">Animal</p>
+                                        <h5 class="text-white mb-0">Elephant</h5>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                        <div class="col-12">
+                            <a
+                                    class="animal-item"
+                                    href="<?php echo get_template_directory_uri(); ?>/assets/img/animal-md-2.jpg"
+                                    data-lightbox="animal"
+                            >
+                                <div class="position-relative">
+                                    <img class="img-fluid"
+                                         src="<?php echo get_template_directory_uri(); ?>/assets/img/animal-md-2.jpg"
+                                         alt=""/>
+                                    <div class="animal-text p-4">
+                                        <p class="text-white small text-uppercase mb-0">Animal</p>
+                                        <h5 class="text-white mb-0">Elephant</h5>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.5s">
+                    <div class="row g-4">
+                        <div class="col-12">
+                            <a
+                                    class="animal-item"
+                                    href="<?php echo get_template_directory_uri(); ?>/assets/img/animal-md-3.jpg"
+                                    data-lightbox="animal"
+                            >
+                                <div class="position-relative">
+                                    <img class="img-fluid"
+                                         src="<?php echo get_template_directory_uri(); ?>/assets/img/animal-md-3.jpg"
+                                         alt=""/>
+                                    <div class="animal-text p-4">
+                                        <p class="text-white small text-uppercase mb-0">Animal</p>
+                                        <h5 class="text-white mb-0">Elephant</h5>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                        <div class="col-12">
+                            <a
+                                    class="animal-item"
+                                    href="<?php echo get_template_directory_uri(); ?>/assets/img/animal-lg-3.jpg"
+                                    data-lightbox="animal"
+                            >
+                                <div class="position-relative">
+                                    <img class="img-fluid"
+                                         src="<?php echo get_template_directory_uri(); ?>/assets/img/animal-lg-3.jpg"
+                                         alt=""/>
+                                    <div class="animal-text p-4">
+                                        <p class="text-white small text-uppercase mb-0">Animal</p>
+                                        <h5 class="text-white mb-0">Elephant</h5>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Animal End -->
+
+    <!-- Visiting Hours Start -->
+    <div
+            class="container-xxl bg-primary visiting-hours my-5 py-5 wow fadeInUp"
+            data-wow-delay="0.1s"
+    >
+        <div class="container py-5">
+            <div class="row g-5">
+                <div class="col-md-6 wow fadeIn" data-wow-delay="0.3s">
+                    <h1 class="display-6 text-white mb-5">Visiting Hours</h1>
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item">
+                            <span>Monday</span>
+                            <span>9:00AM - 6:00PM</span>
+                        </li>
+                        <li class="list-group-item">
+                            <span>Tuesday</span>
+                            <span>9:00AM - 6:00PM</span>
+                        </li>
+                        <li class="list-group-item">
+                            <span>Wednesday</span>
+                            <span>9:00AM - 6:00PM</span>
+                        </li>
+                        <li class="list-group-item">
+                            <span>Thursday</span>
+                            <span>9:00AM - 6:00PM</span>
+                        </li>
+                        <li class="list-group-item">
+                            <span>Friday</span>
+                            <span>9:00AM - 6:00PM</span>
+                        </li>
+                        <li class="list-group-item">
+                            <span>Saturday</span>
+                            <span>9:00AM - 6:00PM</span>
+                        </li>
+                        <li class="list-group-item">
+                            <span>Sunday</span>
+                            <span>Closed</span>
+                        </li>
+                    </ul>
+                </div>
+                <div class="col-md-6 text-light wow fadeIn" data-wow-delay="0.5s">
+                    <h1 class="display-6 text-white mb-5">Contact Info</h1>
+                    <table class="table">
+                        <tbody>
+                        <tr>
+                            <td>Office</td>
+                            <td>123 Street, New York, USA</td>
+                        </tr>
+                        <tr>
+                            <td>Zoo</td>
+                            <td>123 Street, New York, USA</td>
+                        </tr>
+                        <tr>
+                            <td>Ticket</td>
+                            <td>
+                                <p class="mb-2">+012 345 6789</p>
+                                <p class="mb-0">ticket@example.com</p>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Support</td>
+                            <td>
+                                <p class="mb-2">+012 345 6789</p>
+                                <p class="mb-0">support@example.com</p>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Visiting Hours End -->
+
+    <!-- Membership Start -->
+    <div class="container-xxl py-5">
+        <div class="container">
+            <div
+                    class="row g-5 mb-5 align-items-end wow fadeInUp"
+                    data-wow-delay="0.1s"
+            >
+                <div class="col-lg-6">
+                    <p><span class="text-primary me-2">#</span>Membership</p>
+                    <h1 class="display-5 mb-0">
+                        You Can Be A Proud Member Of
+                        <span class="text-primary">Zoofari</span>
+                    </h1>
+                </div>
+                <div class="col-lg-6 text-lg-end">
+                    <a class="btn btn-primary py-3 px-5" href="">Special Pricing</a>
+                </div>
+            </div>
+            <div class="row g-4">
+                <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.1s">
+                    <div class="membership-item position-relative">
+                        <img class="img-fluid"
+                             src="<?php echo get_template_directory_uri(); ?>/assets/img/animal-lg-1.jpg" alt=""/>
+                        <h1 class="display-1">01</h1>
+                        <h4 class="text-white mb-3">Popular</h4>
+                        <h3 class="text-primary mb-4">$99.00</h3>
+                        <p><i class="fa fa-check text-primary me-3"></i>10% discount</p>
+                        <p>
+                            <i class="fa fa-check text-primary me-3"></i>2 adult and 2 child
+                        </p>
+                        <p>
+                            <i class="fa fa-check text-primary me-3"></i>Free animal
+                            exhibition
+                        </p>
+                        <a class="btn btn-outline-light px-4 mt-3" href="">Get Started</a>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.3s">
+                    <div class="membership-item position-relative">
+                        <img class="img-fluid"
+                             src="<?php echo get_template_directory_uri(); ?>/assets/img/animal-lg-2.jpg" alt=""/>
+                        <h1 class="display-1">02</h1>
+                        <h4 class="text-white mb-3">Standard</h4>
+                        <h3 class="text-primary mb-4">$149.00</h3>
+                        <p><i class="fa fa-check text-primary me-3"></i>15% discount</p>
+                        <p>
+                            <i class="fa fa-check text-primary me-3"></i>4 adult and 4 child
+                        </p>
+                        <p>
+                            <i class="fa fa-check text-primary me-3"></i>Free animal
+                            exhibition
+                        </p>
+                        <a class="btn btn-outline-light px-4 mt-3" href="">Get Started</a>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.5s">
+                    <div class="membership-item position-relative">
+                        <img class="img-fluid"
+                             src="<?php echo get_template_directory_uri(); ?>/assets/img/animal-lg-3.jpg" alt=""/>
+                        <h1 class="display-1">03</h1>
+                        <h4 class="text-white mb-3">Premium</h4>
+                        <h3 class="text-primary mb-4">$199.00</h3>
+                        <p><i class="fa fa-check text-primary me-3"></i>20% discount</p>
+                        <p>
+                            <i class="fa fa-check text-primary me-3"></i>6 adult and 6 child
+                        </p>
+                        <p>
+                            <i class="fa fa-check text-primary me-3"></i>Free animal
+                            exhibition
+                        </p>
+                        <a class="btn btn-outline-light px-4 mt-3" href="">Get Started</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Membership End -->
+
+    <!-- Testimonial Start -->
+    <div class="container-xxl py-5">
+        <div class="container">
+            <h1
+                    class="display-5 text-center mb-5 wow fadeInUp"
+                    data-wow-delay="0.1s"
+            >
+                Our Clients Say!
+            </h1>
+            <div
+                    class="owl-carousel testimonial-carousel wow fadeInUp"
+                    data-wow-delay="0.1s"
+            >
+                <div class="testimonial-item text-center">
+                    <img
+                            class="img-fluid rounded-circle border border-2 p-2 mx-auto mb-4"
+                            src="<?php echo get_template_directory_uri(); ?>/assets/img/testimonial-1.jpg"
+                            style="width: 100px; height: 100px"
+                    />
+                    <div class="testimonial-text rounded text-center p-4">
+                        <p>
+                            Clita clita tempor justo dolor ipsum amet kasd amet duo justo
+                            duo duo labore sed sed. Magna ut diam sit et amet stet eos sed
+                            clita erat magna elitr erat sit sit erat at rebum justo sea
+                            clita.
+                        </p>
+                        <h5 class="mb-1">Patient Name</h5>
+                        <span class="fst-italic">Profession</span>
+                    </div>
+                </div>
+                <div class="testimonial-item text-center">
+                    <img
+                            class="img-fluid rounded-circle border border-2 p-2 mx-auto mb-4"
+                            src="<?php echo get_template_directory_uri(); ?>/assets/img/testimonial-2.jpg"
+                            style="width: 100px; height: 100px"
+                    />
+                    <div class="testimonial-text rounded text-center p-4">
+                        <p>
+                            Clita clita tempor justo dolor ipsum amet kasd amet duo justo
+                            duo duo labore sed sed. Magna ut diam sit et amet stet eos sed
+                            clita erat magna elitr erat sit sit erat at rebum justo sea
+                            clita.
+                        </p>
+                        <h5 class="mb-1">Patient Name</h5>
+                        <span class="fst-italic">Profession</span>
+                    </div>
+                </div>
+                <div class="testimonial-item text-center">
+                    <img
+                            class="img-fluid rounded-circle border border-2 p-2 mx-auto mb-4"
+                            src="<?php echo get_template_directory_uri(); ?>/assets/img/testimonial-3.jpg"
+                            style="width: 100px; height: 100px"
+                    />
+                    <div class="testimonial-text rounded text-center p-4">
+                        <p>
+                            Clita clita tempor justo dolor ipsum amet kasd amet duo justo
+                            duo duo labore sed sed. Magna ut diam sit et amet stet eos sed
+                            clita erat magna elitr erat sit sit erat at rebum justo sea
+                            clita.
+                        </p>
+                        <h5 class="mb-1">Patient Name</h5>
+                        <span class="fst-italic">Profession</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Testimonial End -->
 
 <?php get_footer(); ?>
